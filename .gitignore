@@ -1,0 +1,25 @@
+
+# Geany
+*.geany
+
+# Python test
+*_old.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# GitEye
+target/
+/.project
+*.project
+
+# other
+.idea/
+_old/
+output/
+pages_MW/
+
+*.html
+*.txt
+*.out
