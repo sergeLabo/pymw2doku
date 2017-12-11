@@ -5,10 +5,14 @@ import dokuwiki
 
 #https://wiki.labomedia.org/index.php/
 
-URL = "http://ressources.labomedia.org/"
+URL = "http://ressources.labomedia.org"
 USER = "serge"
 PASSWORD = "Boubar@8546"
-    
+
+
+wiki = dokuwiki.DokuWiki(URL, USER, PASSWORD)
+
+
 wiki = None
 try:
     wiki = dokuwiki.DokuWiki(URL, USER, PASSWORD)
