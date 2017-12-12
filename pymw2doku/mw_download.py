@@ -51,6 +51,14 @@ class MWDownload:
         self.write_file(file_name)
 
 
+def test0():
+    """Download some pages"""
+    
+    url = "https://wiki.labomedia.org/index.php/Fichier:Tablo-motherboard3.jpg"
+    mw = MWDownload(url)
+    mw.download_page()
+    print(mw.page)
+        
 def test1():
     """Download some pages"""
     
@@ -131,4 +139,4 @@ def test4():
 
 
 if __name__ == '__main__':
-    test2()
+    test0()

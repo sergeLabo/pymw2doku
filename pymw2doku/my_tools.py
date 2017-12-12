@@ -27,6 +27,7 @@ class MyTools:
         for directory in os.listdir(master_dir):
             all_files[directory] = []
             for fichier in os.listdir(master_dir + "/" + directory):
+                #print("Fichier trouvé:", directory, fichier)
                 if fichier.endswith(file_end):
                     file_name = os.path.join(fichier)
                     abs_file = master_dir + "/" + directory + "/" + file_name
@@ -68,7 +69,7 @@ class MyTools:
         data = loads(data)
 
         return data
-        
+
     def print_all_key_value(self, my_dict):
         '''Imprime un dict contenant un dict,
         affiche le nombre de clés total.

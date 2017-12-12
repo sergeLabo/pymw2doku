@@ -59,7 +59,7 @@ class UploadManagement(MyTools):
         """Ajoute les listes uploaded et unuploaded,
         puis enregistre le str.
         """
-        
+
         # list de pages
         toutes = self.uploaded + self.unuploaded
         # une ligne par item
@@ -72,43 +72,44 @@ class MwPagesBatch(UploadManagement):
 
     def __init__(self):
         super().__init__()
-        self.get_unuploaded() 
+        self.get_unuploaded()
 
         print("\nPages téléchargées")
         print(self.uploaded)
         print("\nPages à télécharger")
         print(self.unuploaded)
-        
-    def download_unuploaded(self):
-        
-        abs_path = self.get_absolute_path("./output/mw_pages/")
-        
-        for line in self.unuploaded:
-            page_q = quote(line)
-            page_q = page_q.replace('/', '_')
-            url = SITE + page_q + EDIT
-            
-            mwd = MWDownload(url)
-            page = mwd.download_page()
 
-            directory = abs_path + "/" + page_q + "/"
-            self.create_directory(directory)
-            
-            fichier = directory + page_q + ".html"
-            
-            self.write_data_in_file(page, fichier)
-            
-            sleep(1)
-            
+    def download_unuploaded(self):
+
+        abs_path = self.get_absolute_path("./output/mw_pages/")
+
+        for line in self.unuploaded:
+            if line: # Si pas ligne vide
+                page_q = quote(line)
+                page_q = page_q.replace('/', '_')
+                url = SITE + page_q + EDIT
+
+                mwd = MWDownload(url)
+                page = mwd.download_page()
+
+                directory = abs_path + "/" + page_q + "/"
+                self.create_directory(directory)
+
+                fichier = directory + page_q + ".html"
+
+                self.write_data_in_file(page, fichier)
+
+                sleep(1)
+
         self.record_uploaded()
 
-    
+
 def main():
 
     mpb = MwPagesBatch()
     mpb.download_unuploaded()
     print("\nTranfert terminé")
-  
-        
+
+
 if __name__ == "__main__":
     main()

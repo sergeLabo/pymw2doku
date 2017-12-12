@@ -3,6 +3,8 @@
 
 
 from bs4 import BeautifulSoup
+import re
+
 from my_tools import MyTools
 
 
@@ -13,50 +15,75 @@ class BeautifulMW:
     def __init__(self, file_path_name):
         """Chemin absolu avec nom du fichier."""
 
-        self.debug = 0
         self.file_path_name = file_path_name
         self.tools = MyTools()
 
         # Le fichier à analyser
         self.fichier = self.tools.read_file(self.file_path_name)
 
-    def get_code_and_files(self):
-        """Retourne le code mediawiki."""
+        # La soupe
+        self.soup = BeautifulSoup(self.fichier, "lxml")
 
-        soup = BeautifulSoup(self.fichier, "lxml")
-        self.get_mw_code(soup)
-        self.get_files_list(soup)
-        
-    def get_mw_code(self, soup):
+    def get_mw_code(self):
+        """Retourne le code mesiawiki"""
+
         # <div class="liste-jours">
-        c = soup.find_all("textarea")
+        c = self.soup.find_all("textarea")
+
         if len(c) > 0:
-            self.code = c[0].text
+            code = c[0].text
         else:
-            self.code = ""
-            
-    def get_files_list(self, soup):
-        """Retourne la liste des fichiers à télécharger
-        avec leur chemin
-        output/mw_pages/Le-tablo
+            code = ""
+        self.code = code
+
+        return code
+
+    def get_files_list(self, mw_code):
+        """Retourne la liste des fichiers à partir de
+        mw_code = code mediawiki
+        pas de self.code pour test local
+
+        [[File:tablo-bios.jpg|300px]]
+        [[Image:
+        [[Fichier:
+        <gallery>
+        File:tablo-inside.jpg|le dedans
         """
-        
-        c = soup.find_all()
-        
-        print(c)
-        self.files_list = []
+
+        files_list = []
+
+        resp = re.findall( r"(?:Fichier|File):([^|\]]+)[^\]]*\]\]",
+                           mw_code,
+                           flags=re.M)
+        if resp:
+            for r in resp:
+                r = "File:" + r
+                files_list.append(r)  #.group())
+
+        for f in files_list:
+            print(f)
+
+        print(len(files_list), "fichiers trouvés")
+        return files_list
 
 
-def test():
-    # Chemin relatif
-    files = ["./output/mw_pages/Constellation"]
+def test1():
+    file_name = "./output/mw_pages/Le-tablo/Le-tablo.html"
 
-    for f in files:
-        bmw = BeautifulMW(f)
-        bmw.get_code()
+    bmw = BeautifulMW(file_name)
 
-        print("Code\n", bmw.code, "\n")
+    code       = bmw.get_mw_code()
+    print(code)
+    files_list = bmw.get_files_list(code)
 
+def test2():
+    file_name = "./file_test.txt"
+
+    bmw = BeautifulMW(file_name)
+    mt = MyTools()
+    test = mt.read_file(file_name)
+    files_list = bmw.get_files_list(test)
+    print(files_list)
 
 if __name__ == "__main__":
-    test()
+    test2()
