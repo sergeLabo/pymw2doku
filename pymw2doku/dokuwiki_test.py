@@ -7,7 +7,7 @@ import dokuwiki
 
 URL = "http://ressources.labomedia.org"
 USER = "serge"
-PASSWORD = "Boubar@8546"
+PASSWORD = ""
 
 
 wiki = dokuwiki.DokuWiki(URL, USER, PASSWORD)
