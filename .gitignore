@@ -16,7 +16,3 @@ target/
 
 # other
 .idea/
-
-*.html
-*.txt
-*.out
