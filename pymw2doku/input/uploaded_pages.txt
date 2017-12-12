@@ -1,0 +1,41 @@
+1 Kivy: Introduction
+
+2 Kivy: Installation
+
+3 Kivy: Les fichiers kv
+
+4 Kivy: Exemples simples pour apprendre
+
+5 Kivy: Liste des éléments graphiques
+
+6 Kivy: Liste des éléments graphiques Widgets complexes
+
+7 Kivy: Liste des éléments graphiques Widgets de comportement et Gestion d'écrans
+
+Kivy Buildozer pour créer une application Android avec un script python
+
+Kivy Multi Pong
+
+Kivy: Canvas
+
+Kivy: Comment faire un tas de chose
+
+Kivy: TapOSC
+
+Alternatives à OSC
+
+Créer son propre package python
+
+Déboguer et optimiser un script python
+
+Geany: un EDI léger
+
+Installation de modules avec pip
+
+Installation de OpenCV sur Debian Jessie pour python 3 sans Virtualenv
+
+Installation de Twisted pour python 3.x
+
+Pygame: des exemples pour débuter
+
+Python Les décorateurs démystifiés
