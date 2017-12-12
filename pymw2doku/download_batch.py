@@ -97,8 +97,13 @@ class MwPagesBatch(UploadManagement):
 
                 fichier = directory + page_q + ".html"
 
+                # Ecriture du html
                 self.write_data_in_file(page, fichier)
 
+                # Un fichier txt avec le nom de page initial
+                titre = line + "\n"
+                nom = directory + page_q + ".txt"
+                self.write_data_in_file(titre, nom)
                 sleep(1)
 
         self.record_uploaded()
