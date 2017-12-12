@@ -35,7 +35,9 @@ python3 mw_to_doku_batch.py
 ### Pour relancer ###
 Si ça plante, si vous aimez voir défiler le terminal ...
 
-Supprimer les fichiers à relancer de uploaded_pages.txt
+Pour  retélécharger, et relancer tout
+* Supprimer les fichiers à relancer de uploaded_pages.txt
 
+Chaque script peut-être relancé séparément.
 
 ### Merci à La Labomedia ###
