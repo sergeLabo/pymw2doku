@@ -16,10 +16,6 @@ target/
 
 # other
 .idea/
-_old/
-output/
-input/
-pages_MW/
 
 *.html
 *.txt
