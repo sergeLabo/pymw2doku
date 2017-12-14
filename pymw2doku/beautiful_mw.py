@@ -60,9 +60,6 @@ class BeautifulMW:
                 r = "File:" + r
                 files_list.append(r)  #.group())
 
-        for f in files_list:
-            print(f)
-
         print(len(files_list), "fichiers trouvés")
         return files_list
 

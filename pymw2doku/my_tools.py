@@ -50,6 +50,7 @@ class MyTools:
 
         with open(fichier, 'w') as fd:
             fd.write(data)
+        fd.close()
 
     def data_to_json(self, data):
         """Retourne le json des datas"""
