@@ -69,21 +69,17 @@ class BeautifulMW:
 
 def test1():
     file_name = "./output/mw_pages/Le-tablo/Le-tablo.html"
-
     bmw = BeautifulMW(file_name)
-
     code       = bmw.get_mw_code()
-    print(code)
     files_list = bmw.get_files_list(code)
 
 def test2():
-    file_name = "./file_test.txt"
+    file_name = "./file_test.mediawiki"
 
     bmw = BeautifulMW(file_name)
     mt = MyTools()
     test = mt.read_file(file_name)
     files_list = bmw.get_files_list(test)
-    print(files_list)
 
 if __name__ == "__main__":
     test2()

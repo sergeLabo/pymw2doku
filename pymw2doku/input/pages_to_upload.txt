@@ -39,3 +39,7 @@ Installation de Twisted pour python 3.x
 Pygame: des exemples pour débuter
 
 Python Les décorateurs démystifiés
+
+Créer son propre package python
+
+Panorama de la création artistique numérique

@@ -9,6 +9,7 @@ enregistre le code doku dans /output/mw_code/nom_de_page/nom_de_page_doku.dokuwi
 """
 
 
+import re
 import pypandoc
 from my_tools import MyTools
 
@@ -18,30 +19,113 @@ MASTER_DIR = "./output/mw_pages"
 
 class Convert(MyTools):
 
-    def __init__(self, directory, page):
+    def __init__(self, page_file):
         super().__init__()
-        self.page = page
-        self.directory = directory
+        # page_file est une liste avec un nom de chemin/fichier
+        self.page_file = page_file
 
     def convert(self):
         """Convertit en syntax doku"""
 
-        in_file = self.page[0]
-        out_file = self.page[0][:-10] + '.dokuwiki'
+        in_file = self.page_file[0]
+        out_file = self.page_file[0][:-10] + '.dokuwiki'
 
+        #self.labomedia_improvement(in_file)
+
+        # Appel du Panda magique
         pypandoc.convert_file( in_file,
                                'dokuwiki',
                                outputfile=out_file)
 
-    def get_file_to_upload(self):
-        """Récupère tous les fichiers qu'il faut télécharger"""
+    def labomedia_improvement(self, in_file):
+        """Modifications spéciale Labomedia"""
 
-        pass
+        # Lecture du fichier
+        page = self.read_file(in_file)
 
-    def upload_file(self):
-        """Télécharge les fichiers de la liste"""
+        # Suppression des [[Category:]] [[Catégorie:]]
+        page = self.delete_category(page)
 
-        pass
+        # Suppression des __NOTOC__ __NOEDITSECTION__
+        page = self.delete_notoc_noeditsection(page)
+
+        # Conversion de <DynamicPageList>
+        page = self.convert_dynamicpagelist(page)
+
+        # Amélioration des balises video
+        self.change_video_balise(page)
+
+        # Overwrite in_file, pypandoc lira le nouveau fichier
+        self.write_data_in_file(page, in_file)
+
+    def delete_category(self, page):
+        """Retourne la page sans [[Category:...]] [[Catégorie:...]]"""
+
+        page = re.sub( r"(?:\[\[Category|Catégorie):([^|\]]+)[^\]]*\]\]",
+                        "",
+                        page,
+                        flags=re.M)
+        return page
+
+    def delete_notoc_noeditsection(self, page):
+        """Retourne la page sans __NOTOC__ __NOEDITSECTION__"""
+
+        page = re.sub( r"(?:__NOTOC__|__NOEDITSECTION__)",
+                        "",
+                        page,
+                        flags=re.M)
+
+        return page
+
+    def convert_dynamicpagelist(self, page):
+        """Retourne la page sans DynamicPageList
+
+        Dans Mediawiki:
+        <DynamicPageList>
+        category = Kivy
+        count = 30
+        order = ascending
+        ordermethod = sortkey
+        </DynamicPageList>
+
+        Dans dokuwiki:
+        <html><DynamicPageList></html>
+        category = Kivy
+        count = 30
+        order = ascending
+        ordermethod = sortkey
+        <html></DynamicPageList></html>
+
+        Avec https://www.dokuwiki.org/plugin:pagelist
+        <pagelist&sort&nouser>
+          * [[..:blog:|Blog Plugin]]
+        </pagelist>
+
+        """
+
+        page = re.sub( r"(?:__NOTOC__|__NOEDITSECTION__)",
+                        "",
+                        page,
+                        flags=re.M)
+
+        return page
+
+    def change_video_balise(self, page):
+        """Change balise video de mediawiki
+        :{{#ev:vimeo|33492100}}
+        devient
+
+        {{vimeo>37527145}}
+        {{youtube>uDpRWMzCEwo}}
+
+        """
+
+        page = re.sub( r"(?:\{\{#ev:vimeo|):([^|\]]+)[^\]]*\}\}",
+                        "{{vimeo>}}", page, flags=re.M)
+        page = re.sub( r"(?:\{\{#ev:youtube|):([^|\]]+)[^\]]*\}\}",
+                        "{{youtube>}}", page, flags=re.M)
+
+        return page
 
 
 class ConvertBatch(MyTools):
@@ -52,9 +136,10 @@ class ConvertBatch(MyTools):
         self.all_files = self.get_all_files(MASTER_DIR, ".mediawiki")
 
     def convert_all(self):
-        for directory, page in self.all_files.items():
-            conv = Convert(directory, page)
+        for directory, page_file in self.all_files.items():
+            conv = Convert(page_file)
             conv.convert()
+
 
 def main():
 
@@ -62,6 +147,14 @@ def main():
     convert.convert_all()
     print("\nExtraction terminée")
 
+def test():
+    page_file = ["./convert_test.mediawiki"]
+    conv = Convert(page_file)
+    conv.convert()
+    data = conv.read_file("./convert_test.dokuwiki")
+    print(data)
+
 
 if __name__ == "__main__":
     main()
+    # #test()

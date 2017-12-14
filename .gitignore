@@ -16,3 +16,5 @@ target/
 
 # other
 .idea/
+
+*_old/

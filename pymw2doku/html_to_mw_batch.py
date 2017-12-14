@@ -54,7 +54,7 @@ class HtmlToMw(MyTools):
                 mw_code    = bmw.get_mw_code()
                 files_list = bmw.get_files_list(mw_code)
 
-                # Write, [:-5] coupe de .html
+                # Write le mediawiki, [:-5] coupe de .html
                 fichier = fichier[:-5] + ".mediawiki"
 
                 print("Enregistrement du code mediawiki")
@@ -67,7 +67,6 @@ class HtmlToMw(MyTools):
                 files_list_with_path = get_files_list_with_path(pages_list)
 
                 print("Téléchargement des fichiers")
-                print(files_list_with_path)
                 for f in files_list_with_path:
                     if f:
                         # directory = /media/data/3D/projets/pymw2doku/pymw2doku/
@@ -140,8 +139,9 @@ def download_files_with_path(file_with_path, directory):
     # "./output/mw_files/"
     print("./output/mw_pages/" + directory + "/" + name)
 
+    # download and write effectif du fichier
     mw.download_and_write("./output/mw_pages/" + directory + "/" + name)
-    #os._exit(0)
+
 
 def main():
     """Batch de toutes les pages html to mediawiki
@@ -150,9 +150,9 @@ def main():
     download et save des fichiers
     """
 
-    mt = MyTools()
     htm = HtmlToMw()
     htm.get_mw_and_files()
+
 
 if __name__ == "__main__":
     main()
