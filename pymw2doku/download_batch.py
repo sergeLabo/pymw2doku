@@ -74,9 +74,7 @@ class MwPagesBatch(UploadManagement):
         super().__init__()
         self.get_unuploaded()
 
-        print("\nPages téléchargées")
         print(self.uploaded)
-        print("\nPages à télécharger")
         print(self.unuploaded)
 
     def download_unuploaded(self):
@@ -92,17 +90,17 @@ class MwPagesBatch(UploadManagement):
                 mwd = MWDownload(url)
                 page = mwd.download_page()
 
-                directory = abs_path + "/" + page_q + "/"
+                directory = abs_path + "/" + line + "/"  #page_q + "/"
                 self.create_directory(directory)
 
-                fichier = directory + page_q + ".html"
+                fichier = directory + line + ".html"  #page_q + ".html"
 
                 # Ecriture du html
                 self.write_data_in_file(page, fichier)
 
                 # Un fichier txt avec le nom de page initial
                 titre = line + "\n"
-                nom = directory + page_q + ".txt"
+                nom = directory + line + ".txt"  #page_q + ".txt"
                 self.write_data_in_file(titre, nom)
                 sleep(1)
 

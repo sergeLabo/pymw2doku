@@ -4,6 +4,9 @@
 
 [[Fichier:Ada.gif|vignette]]
 
+Mon Fichier: toto est dans la place ; coucou !
+test1
+
 <gallery>
 File:tablo-inside.jpg|le dedans
 File:tablo-inside2.jpg|le tablo ouvert

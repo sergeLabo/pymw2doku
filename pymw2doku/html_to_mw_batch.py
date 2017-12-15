@@ -17,7 +17,7 @@ import os
 import re
 from time import sleep
 from bs4 import BeautifulSoup
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 from beautiful_mw import BeautifulMW
 from mw_download import MWDownload
 from my_tools import MyTools
@@ -87,7 +87,6 @@ class HtmlToMw(MyTools):
                     if f:
                         un_uploaded = self.is_file_un_uploaded(f)
                         if un_uploaded:
-                            # directory = /media/data/3D/projets/pymw2doku/pymw2doku/
                             print("Téléchargement de", f)
                             download_files_with_path(f, directory)
                             self.uploaded_list.append(f)
@@ -113,6 +112,7 @@ def download_file_page_list(files_list):
         mwd = MWDownload(url, decoded=1)
         file_page = mwd.download_page()
         pages_list.append(file_page)
+
     return pages_list
 
 def get_files_list_with_path(pages_list):
@@ -154,12 +154,12 @@ def download_files_with_path(file_with_path, directory):
     name = os.path.basename(line)
 
     url = site + line
-
     mw = MWDownload(url, decoded=0)
-    # "./output/mw_files/"
+
     print("./output/mw_pages/" + directory + "/" + name)
 
     # download and write effectif du fichier
+    print("Fichier enregistré: ", directory + "/" + name)
     mw.download_and_write("./output/mw_pages/" + directory + "/" + name)
 
 def get_uploaded_file():

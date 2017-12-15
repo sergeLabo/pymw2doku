@@ -9,8 +9,7 @@ from my_tools import MyTools
 
 
 class BeautifulMW:
-    """Extrait le code mw de la page.
-    """
+    """Extrait le code mw de la page, et le chemin des fichiers."""
 
     def __init__(self, file_path_name):
         """Chemin absolu avec nom du fichier."""
@@ -52,15 +51,18 @@ class BeautifulMW:
 
         files_list = []
 
-        resp = re.findall( r"(?:Fichier|File):([^|\]]+)[^\]]*\]\]",
+        resp = re.findall( r"((?:Fichier|File):[^|\]\s]+)",
                            mw_code,
                            flags=re.M)
+
         if resp:
             for r in resp:
-                r = "File:" + r
+                #r = "File:" + r
                 files_list.append(r)  #.group())
 
-        print(len(files_list), "fichiers trouvés")
+        print(len(files_list), "fichiers trouvés:")
+        print(files_list, "\n")
+
         return files_list
 
 

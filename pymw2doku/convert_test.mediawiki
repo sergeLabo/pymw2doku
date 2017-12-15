@@ -20,9 +20,11 @@ test
 * [http://www.amazon.fr/Kivy-Blueprints-Mark-Vasilkov/dp/1783987847/ref=sr_1_1?s=english-books&ie=UTF8&qid=1426934327&sr=1-1&keywords=kivy Kivy Blueprints (Anglais)]
 
 =Video=
+:{{#ev:vimeo|33492100}}
+{{#ev:youtube|uDpRWMzCEwo}}
 
 :{{#ev:vimeo|33492100}}
-:{{#ev:youtube|uDpRWMzCEwo}}
-{{youtube>uDpRWMzCEwo}}
+toto
+:{{#ev:dailymotion|xjgvc2_fab-lab-squared_tech}}
 
 [[Catégorie:Kivy]]
