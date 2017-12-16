@@ -1,2 +1,37 @@
 # Serge
 # Sylvain
+1 Kivy: Introduction
+
+2 Kivy: Installation
+
+3 Kivy: Les fichiers kv
+
+4 Kivy: Exemples simples pour apprendre
+
+5 Kivy: Liste des éléments graphiques
+
+6 Kivy: Liste des éléments graphiques Widgets complexes
+
+7 Kivy: Liste des éléments graphiques Widgets de comportement et Gestion d'écrans
+
+Kivy Buildozer pour créer une application Android avec un script python
+
+Kivy Multi Pong
+
+Kivy: Canvas
+
+Kivy: Comment faire un tas de chose
+
+Kivy: TapOSC
+
+Créer son propre package python
+
+Installation de Twisted pour python 3.x
+
+Présentation Labomedia
+
+Blender:Alpha Blending
+
+Debian Installation Configuration
+
+Installation et configuration de Pure Data sur Linux

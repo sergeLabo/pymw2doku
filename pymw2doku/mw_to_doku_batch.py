@@ -181,7 +181,14 @@ class ConvertBatch(MyTools):
     def convert_all(self):
         for directory, page_file in self.all_files.items():
             sleep(0.1)
-            print("Conversion de ", page_file[0][18:-3])
+
+            # joli print
+            all_file_path = page_file[0]
+            name_list = all_file_path.split("/")
+            name = name_list[-1][:-10]
+            print("Conversion de ", name)
+
+            # Conversion
             conv = Convert(page_file)
             conv.convert()
 

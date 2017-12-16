@@ -100,7 +100,6 @@ class MyTools:
             Path(directory).mkdir(mode=0o777, parents=False)
             print("Création du répertoire: {}".format(directory))
         except FileExistsError as e:
-            print("Le répertoire existe:")  #, e)
             pass
 
     def get_absolute_path(self, a_file_or_a_directory):
