@@ -74,17 +74,19 @@ class MwPagesBatch(UploadManagement):
         super().__init__()
         self.get_unuploaded()
 
-        print(self.uploaded)
-        print(self.unuploaded)
-
     def download_unuploaded(self):
 
         abs_path = self.get_absolute_path("./output/mw_pages/")
 
         for line in self.unuploaded:
             if line: # Si pas ligne vide
+                sleep(0.1)
+
+                # Suppression du / qui définit un sous dossier
+                line = line.replace('/', '_')
+
+                # Adreese valide
                 page_q = quote(line)
-                page_q = page_q.replace('/', '_')
                 url = SITE + page_q + EDIT
 
                 mwd = MWDownload(url)
@@ -97,13 +99,6 @@ class MwPagesBatch(UploadManagement):
 
                 # Ecriture du html
                 self.write_data_in_file(page, fichier)
-
-                # Inutile non en tête de dokuwiki
-                # ## Un fichier txt avec le nom de page initial
-                # #titre = line + "\n"
-                # #nom = directory + line + ".txt"  #page_q + ".txt"
-                # #self.write_data_in_file(titre, nom)
-                sleep(1)
 
         self.record_uploaded()
 

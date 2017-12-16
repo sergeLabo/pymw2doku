@@ -92,9 +92,8 @@ class HtmlToMw(MyTools):
                             self.uploaded_list.append(f)
 
         # Enregistrement par ajout au fichier input/uploaded_files.txt
+        #print("Liste des fichiers téléchargés\n", self.uploaded_list)
         save_loaded(self.uploaded_list)
-        print("Liste des fichiers téléchargés\n", self.uploaded_list)
-
 
 
 def download_file_page_list(files_list):
@@ -104,14 +103,15 @@ def download_file_page_list(files_list):
 
     pages_list = []
     for line in files_list:
-        #print("\nTéléchargemnt de:", line)
+        if line:
+            #print("\nTéléchargemnt de:", line)
 
-        line = quote(line)
-        url = site + line
+            line = quote(line)
+            url = site + line
 
-        mwd = MWDownload(url, decoded=1)
-        file_page = mwd.download_page()
-        pages_list.append(file_page)
+            mwd = MWDownload(url, decoded=1)
+            file_page = mwd.download_page()
+            pages_list.append(file_page)
 
     return pages_list
 
@@ -129,13 +129,14 @@ def get_files_list_with_path(pages_list):
     files_list_with_path = []
 
     for page in pages_list:
-        # Analyse du html pour trouver le chemin du fichier
-        soup = BeautifulSoup(page, "lxml")
+        if page:
+            # Analyse du html pour trouver le chemin du fichier
+            soup = BeautifulSoup(page, "lxml")
 
-        for b in soup.find_all("div", class_="fullMedia"):
-            c = b.find_all('a', class_="internal")
-            file_with_path = c[0].get("href")
-            files_list_with_path.append(file_with_path)
+            for b in soup.find_all("div", class_="fullMedia"):
+                c = b.find_all('a', class_="internal")
+                file_with_path = c[0].get("href")
+                files_list_with_path.append(file_with_path)
 
     return files_list_with_path
 
@@ -155,8 +156,6 @@ def download_files_with_path(file_with_path, directory):
 
     url = site + line
     mw = MWDownload(url, decoded=0)
-
-    print("./output/mw_pages/" + directory + "/" + name)
 
     # download and write effectif du fichier
     print("Fichier enregistré: ", directory + "/" + name)

@@ -17,11 +17,14 @@ class BeautifulMW:
         self.file_path_name = file_path_name
         self.tools = MyTools()
 
-        # Le fichier à analyser
-        self.fichier = self.tools.read_file(self.file_path_name)
+        # La page à analyser
+        page = self.tools.read_file(self.file_path_name)
 
         # La soupe
-        self.soup = BeautifulSoup(self.fichier, "lxml")
+        if page:
+            self.soup = BeautifulSoup(page, "lxml")
+        else:
+            self.soup = ""
 
     def get_mw_code(self):
         """Retourne le code mesiawiki"""
@@ -57,11 +60,9 @@ class BeautifulMW:
 
         if resp:
             for r in resp:
-                #r = "File:" + r
-                files_list.append(r)  #.group())
+                files_list.append(r)
 
-        print(len(files_list), "fichiers trouvés:")
-        print(files_list, "\n")
+        #print(len(files_list), "fichiers trouvés")
 
         return files_list
 

@@ -36,14 +36,19 @@ class MyTools:
         return all_files
 
     def read_file(self, file_name):
-        '''Retourne les datas lues dans le fichier avec son chemin/nom.'''
+        """Retourne les datas lues dans le fichier avec son chemin/nom
+        Retourne None si fichier inexistant ou impossible à lire .
+        """
 
-        # Open our local file
-        with open(file_name) as f:
-            read_data = f.read()
+        try:
+            with open(file_name) as f:
+                data = f.read()
+            f.close()
+        except:
+            data = None
+            print("Fichier inexistant ou impossible à lire:", file_name)
 
-        f.close()
-        return read_data
+        return data
 
     def write_data_in_file(self, data, fichier):
         """Ecrit les data dans le fichier, écrase l'existant."""
@@ -72,9 +77,9 @@ class MyTools:
         return data
 
     def print_all_key_value(self, my_dict):
-        '''Imprime un dict contenant un dict,
+        """Imprime un dict contenant un dict,
         affiche le nombre de clés total.
-        '''
+        """
 
         total = 0
 
@@ -87,15 +92,15 @@ class MyTools:
         print("pour un théorique par jour de =", 24*1)
 
     def create_directory(self, directory):
-        '''Crée le répertoire avec le chemin absolu.
+        """Crée le répertoire avec le chemin absolu.
         ex: /media/data/3D/projets/meteo/meteo_forecast/2017_06
-        '''
+        """
 
         try:
             Path(directory).mkdir(mode=0o777, parents=False)
             print("Création du répertoire: {}".format(directory))
         except FileExistsError as e:
-            print("Le répertoire existe:", e)
+            print("Le répertoire existe:")  #, e)
             pass
 
     def get_absolute_path(self, a_file_or_a_directory):

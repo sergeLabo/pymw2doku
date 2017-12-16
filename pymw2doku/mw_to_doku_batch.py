@@ -10,6 +10,7 @@ enregistre le code doku dans /output/mw_code/nom_de_page/nom_de_page_doku.dokuwi
 
 
 import re
+from time import sleep
 import pypandoc
 from my_tools import MyTools
 
@@ -33,9 +34,13 @@ class Convert(MyTools):
         self.improvement_before(in_file)
 
         # Appel du Panda magique
-        pypandoc.convert_file( in_file,
-                               'dokuwiki',
-                               outputfile=out_file)
+        try:
+            pypandoc.convert_file( in_file,
+                                   'dokuwiki',
+                                   outputfile=out_file)
+        except:
+            print("\n\nErreur pypandoc avec le fichier:")
+            print(in_file, "\n\n")
 
         self.improvement_after(in_file, out_file)
 
@@ -71,7 +76,6 @@ class Convert(MyTools):
 
         page = name + "\n" + page
 
-        print(page[:100])
         return page
 
     def delete_category(self, page):
@@ -148,17 +152,23 @@ class Convert(MyTools):
         # Lecture du fichier
         page = self.read_file(out_file)
 
-        page = re.sub( "ACOLACOL",
-                        "{{", page, flags=re.M)
+        if page:
+            page = re.sub( "ACOLACOL",
+                            "{{", page, flags=re.M)
 
-        page = re.sub( "LOCALOCA",
-                        "}}", page, flags=re.M)
+            page = re.sub( "LOCALOCA",
+                            "}}", page, flags=re.M)
 
-        # Ajout ===== nom de page =====
-        page = self.add_page_name(page, in_file)
+            # Ajout ===== nom de page =====
+            page = self.add_page_name(page, in_file)
 
-        # Overwrite in_file, pypandoc lira le nouveau fichier
-        self.write_data_in_file(page, out_file)
+            # Overwrite in_file, pypandoc lira le nouveau fichier
+            self.write_data_in_file(page, out_file)
+        else:
+            print("\n\nConversion impossible pour:\n    ",
+                   in_file[17:],
+                   "\n\n")
+
 
 
 class ConvertBatch(MyTools):
@@ -170,9 +180,10 @@ class ConvertBatch(MyTools):
 
     def convert_all(self):
         for directory, page_file in self.all_files.items():
+            sleep(0.1)
+            print("Conversion de ", page_file[0][18:-3])
             conv = Convert(page_file)
             conv.convert()
-
 
 def main():
 
@@ -190,3 +201,12 @@ def test():
 if __name__ == "__main__":
     main()
     # #test()
+
+"""
+Pages non convertissable
+Renaissance d'un Minitel avec une Raspberry Pi
+Blender:Armature IK FK
+Aide spécifique pour l'éditeur
+Archive:Python : Résumé des différences entre python 2.6 et python 3
+Bac à sable
+"""

@@ -5,7 +5,7 @@
 from time import sleep
 import urllib.request
 from urllib.error import HTTPError,URLError
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 
 class MWDownload:
@@ -16,10 +16,9 @@ class MWDownload:
         self.page = ""
 
     def download_page(self):
-        """Télécharge une page"""
+        """Télécharge une page ou un fichier."""
 
-        #print("Téléchargement de:", self.url)
-        # Open the url
+        self.page = None
         try:
             page = urllib.request.urlopen(self.url)
             page = page.read()
@@ -27,12 +26,33 @@ class MWDownload:
                 self.page = page.decode("utf-8")
             else:
                 self.page = page
+            name = self.get_name(self.url)
+            print("Téléchargement de", name)
         except HTTPError as e:
-                print("HTTP Error:", e.code)
-        except URLError as e:
-                print("URL Error:", e.reason)
+                #print("HTTP Error:", e.code)
+                self.download_error()
+        # #except URLError as e:
+                # ##print("URL Error:", e.reason)
+                # #self.download_error(self.page)
 
         return self.page
+
+    def get_name(self, url):
+        """Retourne le nom de page ou de fichier pour print."""
+
+        name = url.replace("https://wiki.labomedia.org/index.php?title=",
+                           "")
+        name = name.replace("&action=edit",
+                            "")
+        name = unquote(name)
+
+        return name
+
+    def download_error(self):
+        """Imprime les erreurs si 404"""
+
+        print("Erreur téléchargement fichier:")
+        print("    url:", self.url)
 
     def write_file(self, file_name):
         """Ecrit la page html dans un fichier.
