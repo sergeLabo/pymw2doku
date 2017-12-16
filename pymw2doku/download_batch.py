@@ -98,10 +98,11 @@ class MwPagesBatch(UploadManagement):
                 # Ecriture du html
                 self.write_data_in_file(page, fichier)
 
-                # Un fichier txt avec le nom de page initial
-                titre = line + "\n"
-                nom = directory + line + ".txt"  #page_q + ".txt"
-                self.write_data_in_file(titre, nom)
+                # Inutile non en tête de dokuwiki
+                # ## Un fichier txt avec le nom de page initial
+                # #titre = line + "\n"
+                # #nom = directory + line + ".txt"  #page_q + ".txt"
+                # #self.write_data_in_file(titre, nom)
                 sleep(1)
 
         self.record_uploaded()
@@ -111,7 +112,7 @@ def main():
 
     mpb = MwPagesBatch()
     mpb.download_unuploaded()
-    print("\nTranfert terminé")
+    print("Téléchargement terminé")
 
 
 if __name__ == "__main__":

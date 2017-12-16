@@ -37,7 +37,7 @@ class Convert(MyTools):
                                'dokuwiki',
                                outputfile=out_file)
 
-        self.improvement_after(out_file)
+        self.improvement_after(in_file, out_file)
 
     def improvement_before(self, in_file):
         """Modifications spéciale Labomedia"""
@@ -59,6 +59,20 @@ class Convert(MyTools):
 
         # Overwrite in_file, pypandoc lira le nouveau fichier
         self.write_data_in_file(page, in_file)
+
+    def add_page_name(self, page, in_file):
+        """Ajout en haut de page de
+        ===== nom de page =====
+        """
+
+        str_list = in_file.rsplit("/")
+        name = str_list[-1][:-10]
+        name = "=====" + name + "====="
+
+        page = name + "\n" + page
+
+        print(page[:100])
+        return page
 
     def delete_category(self, page):
         """Retourne la page sans [[Category:...]] [[Catégorie:...]]"""
@@ -127,7 +141,7 @@ class Convert(MyTools):
 
         return page
 
-    def improvement_after(self, out_file):
+    def improvement_after(self, in_file, out_file):
         """ACOLACOL to {{
         LOCALOCA to }}
         """
@@ -139,6 +153,9 @@ class Convert(MyTools):
 
         page = re.sub( "LOCALOCA",
                         "}}", page, flags=re.M)
+
+        # Ajout ===== nom de page =====
+        page = self.add_page_name(page, in_file)
 
         # Overwrite in_file, pypandoc lira le nouveau fichier
         self.write_data_in_file(page, out_file)
@@ -161,7 +178,7 @@ def main():
 
     convert = ConvertBatch()
     convert.convert_all()
-    print("\nExtraction terminée")
+    print("\nConversion terminée")
 
 def test():
     page_file = ["./convert_test.mediawiki"]

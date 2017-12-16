@@ -1,3 +1,5 @@
+# Serge
+
 1 Kivy: Introduction
 
 2 Kivy: Installation
@@ -26,20 +28,36 @@ Alternatives à OSC
 
 Créer son propre package python
 
-Déboguer et optimiser un script python
-
-Geany: un EDI léger
-
-Installation de modules avec pip
-
-Installation de OpenCV sur Debian Jessie pour python 3 sans Virtualenv
-
 Installation de Twisted pour python 3.x
 
-Pygame: des exemples pour débuter
+Présentation Labomedia
 
-Python Les décorateurs démystifiés
+# Sylvain
 
-Créer son propre package python
+Serveur multimedia ArtNet
 
-Panorama de la création artistique numérique
+C++:Conversion int en String
+
+Raspberry Pi Installation
+
+Raspberry Pi Configurations complémentaires
+
+OpenFrameworks avec Raspberry Pi
+
+DMX sans fil
+
+Stéréoscope
+
+GrandMA2
+
+Papatte
+
+Nomenclatures
+
+FOOC
+
+Serveur Minitel
+
+Serveur Minitel en local
+
+C++ : Communication OSC

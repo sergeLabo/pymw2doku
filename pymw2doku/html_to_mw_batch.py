@@ -201,6 +201,7 @@ def main():
 
     htm = HtmlToMw()
     htm.get_mw_and_files()
+    print("Done.")
 
 
 if __name__ == "__main__":
