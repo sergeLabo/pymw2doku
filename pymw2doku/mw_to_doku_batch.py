@@ -123,7 +123,7 @@ class Convert(MyTools):
 
         """
 
-        page = re.sub( r"(?:__NOTOC__|__NOEDITSECTION__)",
+        page = re.sub( r"",
                         "",
                         page,
                         flags=re.M)
@@ -146,9 +146,8 @@ class Convert(MyTools):
         return page
 
     def improvement_after(self, in_file, out_file):
-        """ACOLACOL to {{
-        LOCALOCA to }}
-        """
+        """ACOLACOL to {{LOCALOCA to }}"""
+
         # Lecture du fichier
         page = self.read_file(out_file)
 
@@ -168,7 +167,6 @@ class Convert(MyTools):
             print("\n\nConversion impossible pour:\n    ",
                    in_file[17:],
                    "\n\n")
-
 
 
 class ConvertBatch(MyTools):
@@ -191,6 +189,7 @@ class ConvertBatch(MyTools):
             # Conversion
             conv = Convert(page_file)
             conv.convert()
+
 
 def main():
 

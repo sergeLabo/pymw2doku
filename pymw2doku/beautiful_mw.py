@@ -52,19 +52,14 @@ class BeautifulMW:
         File:tablo-inside.jpg|le dedans
         """
 
-        files_list = []
-
-        resp = re.findall( r"((?:Fichier|File):[^|\]\s]+)",
+        # Récup des fichiers dans la page
+        # ((?:Fichier|File|Image):[^|\]\n]+)
+        # old ((?:Fichier|File|Image):[^|\]\s]+)
+        resp = re.findall( r"((?:Fichier|File|Image):[^|\]\n]+)",
                            mw_code,
                            flags=re.M)
 
-        if resp:
-            for r in resp:
-                files_list.append(r)
-
-        #print(len(files_list), "fichiers trouvés")
-
-        return files_list
+        return resp
 
 
 def test1():

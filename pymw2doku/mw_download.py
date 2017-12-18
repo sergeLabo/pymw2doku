@@ -27,7 +27,7 @@ class MWDownload:
             else:
                 self.page = page
             name = self.get_name(self.url)
-            print("Téléchargement de", name)
+            print("Téléchargement de la page ou du fichier", name)
         except HTTPError as e:
                 #print("HTTP Error:", e.code)
                 self.download_error()

@@ -1,0 +1,20 @@
+====== Test1 ======
+
+===== Test2 =====
+
+<html><DynamicPageList></html> category = Kivy count = 30 order = ascending ordermethod = sortkey <html></DynamicPageList></html>
+
+test==Ressources==
+
+==== Livres ====
+
+  * [[http://www.amazon.fr/Creating-Apps-Kivy-Dusty-Phillips/dp/1491946679/ref=sr_1_5?s=english-books&ie=UTF8&qid=1426934327&sr=1-5&keywords=kivy|Creating Apps in Kivy (Anglais)]] Un livre de 128 pages qui se concentre sur comment créer une application. L'approche est très pratique, par exemple, l'interface est créée avec des BoxLayout, le fichier kv et le code reste simple.
+  * [[http://www.amazon.fr/Kivy-Interactive-Applications-Roberto-Ulloa/dp/1783281596/ref=sr_1_2?s=english-books&ie=UTF8&qid=1426934327&sr=1-2&keywords=kivy|Kivy: Interactive Applications in Python (Anglais)]]
+  * [[http://www.amazon.fr/Kivy-Blueprints-Mark-Vasilkov/dp/1783987847/ref=sr_1_1?s=english-books&ie=UTF8&qid=1426934327&sr=1-1&keywords=kivy|Kivy Blueprints (Anglais)]]
+
+====== Video ======
+
+{{vimeo>33492100}} {{youtube>uDpRWMzCEwo}}
+
+{{vimeo>33492100}} toto {{dailymotion>xjgvc2_fab-lab-squared_tech}}
+

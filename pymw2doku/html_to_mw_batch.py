@@ -59,6 +59,7 @@ class HtmlToMw(MyTools):
             try:
                 fichier = page[0]
             except:
+                print(page)
                 fichier = None
 
             if fichier:
@@ -87,7 +88,6 @@ class HtmlToMw(MyTools):
                     if f:
                         un_uploaded = self.is_file_un_uploaded(f)
                         if un_uploaded:
-                            print("Téléchargement de", f)
                             download_files_with_path(f, directory)
                             self.uploaded_list.append(f)
 
@@ -158,8 +158,8 @@ def download_files_with_path(file_with_path, directory):
     mw = MWDownload(url, decoded=0)
 
     # download and write effectif du fichier
-    print("Fichier enregistré: ", directory + "/" + name)
     mw.download_and_write("./output/mw_pages/" + directory + "/" + name)
+    print("Fichier enregistré: ", name)
 
 def get_uploaded_file():
     """Retourne data de uploaded_files.txt"""
