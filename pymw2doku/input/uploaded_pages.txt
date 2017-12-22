@@ -1,21 +1,2 @@
 # Serge
 # Sylvain
-Kivy Buildozer pour créer une application Android avec un script python
-
-Kivy Multi Pong
-
-Kivy: Canvas
-
-Kivy: Comment faire un tas de chose
-
-Kivy: TapOSC
-
-Créer son propre package python
-
-Installation de Twisted pour python 3.x
-
-Présentation Labomedia
-
-Blender:Alpha Blending
-
-Debian Installation Configuration
