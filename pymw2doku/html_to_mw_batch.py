@@ -22,18 +22,23 @@ from beautiful_mw import BeautifulMW
 from mw_download import MWDownload
 from my_tools import MyTools
 
-MASTER_DIR = "./output/mw_pages"
-
 
 class HtmlToMw(MyTools):
 
-    def __init__(self):
+    def __init__(self, join):
         super().__init__()
 
         print("Html To Mw")
 
-        # Dict répertoires: liste des fichiers
-        self.all_files = self.get_all_files(MASTER_DIR, ".html")
+        self.join = join
+
+        if not self.join:
+            dire = "./output/one_dir_per_page"
+            # Dict avec répertoires: liste des fichiers
+            self.all_files = self.get_all_files(dire, ".html")
+        else:
+            dire = "./output/pages"
+            self.all_files = self.get_all_files(dire, ".html")
 
         # Liste des téléchargés
         self.uploaded_file = get_uploaded_file()
@@ -52,30 +57,30 @@ class HtmlToMw(MyTools):
     def get_mw_and_files(self):
         """Récupère le code mediawiki
         et l'enregistre dans *.mediawiki
+
+        si unjoin: des clés avec un fichier en valeur
+        {'Installation de Twisted':
+            ['./output/one_dir_per_page/Installation de Twisted/Installation de Twisted.html'],
+         'name':
+            [file.html]
+
+        si join: une clés et des fichiers en valeur
+        {'pages':
+            ['./output/pages/work/Kivy: Canvas.html', './output/pages/work/Blender:Alpha Blending.html',
         """
 
-        for directory, page in self.all_files.items():
-            # page est une liste
-            try:
-                fichier = page[0]
-            except:
-                print(page)
-                fichier = None
-
-            if fichier:
-                sleep(0.1)
-                #print("\n\nTraitement de ", fichier)
-
+        for directory in self.all_files.keys():
+            for page in self.all_files[directory]:
                 # Get code
-                bmw = BeautifulMW(fichier)
+                bmw = BeautifulMW(page)
                 mw_code    = bmw.get_mw_code()
                 files_list = bmw.get_files_list(mw_code)
 
-                # Write le mediawiki, [:-5] coupe de .html
-                fichier = fichier[:-5] + ".mediawiki"
+                # [:-5] coupe de .html
+                page = page[:-5] + ".mediawiki"
 
                 # Enregistrement du code mediawiki
-                self.write_data_in_file(mw_code, fichier)
+                self.write_data_in_file(mw_code, page)
 
                 # Téléchargement des pages html des fichiers
                 pages_list = download_file_page_list(files_list)
@@ -88,11 +93,12 @@ class HtmlToMw(MyTools):
                     if f:
                         un_uploaded = self.is_file_un_uploaded(f)
                         if un_uploaded:
-                            download_files_with_path(f, directory)
+                            download_files_with_path(   f,
+                                                        directory,
+                                                        self.join)
                             self.uploaded_list.append(f)
 
         # Enregistrement par ajout au fichier input/uploaded_files.txt
-        #print("Liste des fichiers téléchargés\n", self.uploaded_list)
         save_loaded(self.uploaded_list)
 
 
@@ -104,8 +110,6 @@ def download_file_page_list(files_list):
     pages_list = []
     for line in files_list:
         if line:
-            #print("\nTéléchargemnt de:", line)
-
             line = quote(line)
             url = site + line
 
@@ -140,7 +144,7 @@ def get_files_list_with_path(pages_list):
 
     return files_list_with_path
 
-def download_files_with_path(file_with_path, directory):
+def download_files_with_path(file_with_path, directory, join):
     """Download one file with path
     https://wiki.labomedia.org/index.php/images/2/2e/Cheminements.png
     si pas dans uploaded_files.txt
@@ -154,11 +158,20 @@ def download_files_with_path(file_with_path, directory):
     # name = "Cheminements.png"
     name = os.path.basename(line)
 
+    # Minuuscule et sans espace
+    doku_name = name.replace(' ', '_').lower()
+
     url = site + line
     mw = MWDownload(url, decoded=0)
 
+    if not join:
+        fichier = "./output/one_dir_per_page/" + directory + "/" + name
+    else:
+        fichier ="./output/media/" + name
+    print(fichier)
+    mw.download_and_write(fichier)
+
     # download and write effectif du fichier
-    mw.download_and_write("./output/mw_pages/" + directory + "/" + name)
     print("Fichier enregistré: ", name)
 
 def get_uploaded_file():
@@ -191,17 +204,20 @@ def save_loaded(uploaded_list):
 
     print("Ecriture des fichiers nouveaux dans ./input/uploaded_files.txt")
 
-def main():
+def main(join):
     """Batch de toutes les pages html to mediawiki
     récup des fichiers cités
     download des pages de fichiers
     download et save des fichiers
     """
 
-    htm = HtmlToMw()
+    htm = HtmlToMw(join)
     htm.get_mw_and_files()
     print("Done.")
 
 
 if __name__ == "__main__":
-    main()
+
+    join = 1
+
+    main(join)

@@ -95,7 +95,7 @@ def test1():
             print("url",url, "\n" )
 
             mw = MWDownload(url)
-            mw.download_and_write("./output/mw_pages/" + line)
+            mw.download_and_write("./output/one_dir_per_page/" + line)
         f.close()
 
 def test2():

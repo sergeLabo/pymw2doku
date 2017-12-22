@@ -63,7 +63,7 @@ class BeautifulMW:
 
 
 def test1():
-    file_name = "./output/mw_pages/Le-tablo/Le-tablo.html"
+    file_name = "./output/one_dir_per_page/Le-tablo/Le-tablo.html"
     bmw = BeautifulMW(file_name)
     code       = bmw.get_mw_code()
     files_list = bmw.get_files_list(code)

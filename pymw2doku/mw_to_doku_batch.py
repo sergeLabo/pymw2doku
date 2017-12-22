@@ -15,21 +15,27 @@ import pypandoc
 from my_tools import MyTools
 
 
-MASTER_DIR = "./output/mw_pages"
-
-
 class Convert(MyTools):
 
-    def __init__(self, page_file):
+    def __init__(self, page_file, join):
         super().__init__()
         # page_file est une liste avec un nom de chemin/fichier
         self.page_file = page_file
+        self.join = join
 
     def convert(self):
         """Convertit en syntax doku"""
 
-        in_file = self.page_file[0]
-        out_file = self.page_file[0][:-10] + '.dokuwiki'
+        in_file = self.page_file
+
+        if not self.join:
+            out_file = self.page_file[:-10] + '.dokuwiki'
+        else:
+            # chemin + nom sans extension
+            # ./output/pages/work/Kivy: Canvas
+            print(self.page_file)
+            name = self.page_file[19:-10]
+            out_file = './output/pages/pages' + name + '.dokuwiki'
 
         self.improvement_before(in_file)
 
@@ -171,29 +177,31 @@ class Convert(MyTools):
 
 class ConvertBatch(MyTools):
 
-    def __init__(self):
+    def __init__(self, join):
         super().__init__()
-        # Dict répertoires: liste des fichiers
-        self.all_files = self.get_all_files(MASTER_DIR, ".mediawiki")
 
+        self.join = join
+
+        if not self.join:
+            dire = "./output/one_dir_per_page"
+            # Dict avec répertoires: liste des fichiers
+            self.all_files = self.get_all_files(dire, ".mediawiki")
+        else:
+            dire = "./output/pages"
+            self.all_files = self.get_all_files(dire, ".mediawiki")
     def convert_all(self):
-        for directory, page_file in self.all_files.items():
-            sleep(0.1)
 
-            # joli print
-            all_file_path = page_file[0]
-            name_list = all_file_path.split("/")
-            name = name_list[-1][:-10]
-            print("Conversion de ", name)
+        for directory in self.all_files.keys():
+            for page_file in self.all_files[directory]:
 
-            # Conversion
-            conv = Convert(page_file)
-            conv.convert()
+                print("Conversion de ", page_file)
+                conv = Convert(page_file, self.join)
+                conv.convert()
 
 
-def main():
-
-    convert = ConvertBatch()
+def main(join):
+    print("\nConversion:")
+    convert = ConvertBatch(join)
     convert.convert_all()
     print("\nConversion terminée")
 
@@ -205,14 +213,8 @@ def test():
 
 
 if __name__ == "__main__":
-    main()
-    # #test()
 
-"""
-Pages non convertissable
-Renaissance d'un Minitel avec une Raspberry Pi
-Blender:Armature IK FK
-Aide spécifique pour l'éditeur
-Archive:Python : Résumé des différences entre python 2.6 et python 3
-Bac à sable
-"""
+    join = 1
+
+    main(join)
+    # #test()

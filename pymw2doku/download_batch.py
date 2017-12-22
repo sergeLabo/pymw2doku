@@ -70,18 +70,22 @@ class UploadManagement(MyTools):
 class MwPagesBatch(UploadManagement):
     """Class qui va tout lancer."""
 
-    def __init__(self):
+    def __init__(self, join):
         super().__init__()
         self.get_unuploaded()
+        self.join = join
 
     def download_unuploaded(self):
 
-        abs_path = self.get_absolute_path("./output/mw_pages/")
+        if not self.join:
+            dire = "./output/one_dir_per_page/"
+        else:
+            dire = "./output/pages/work/"
+
+        master_dir = self.get_absolute_path(dire)
 
         for line in self.unuploaded:
-            if line: # Si pas ligne vide
-                sleep(0.1)
-
+            if line:
                 # Suppression du / qui définit un sous dossier
                 line = line.replace('/', '_')
 
@@ -92,10 +96,13 @@ class MwPagesBatch(UploadManagement):
                 mwd = MWDownload(url)
                 page = mwd.download_page()
 
-                directory = abs_path + "/" + line + "/"  #page_q + "/"
-                self.create_directory(directory)
+                if not self.join:
+                    directory = master_dir + "/" + line + "/"
+                    self.create_directory(directory)
+                    fichier = directory + line + ".html"
 
-                fichier = directory + line + ".html"  #page_q + ".html"
+                else:
+                    fichier = master_dir + "/" + line + ".html"
 
                 # Ecriture du html
                 self.write_data_in_file(page, fichier)
@@ -103,12 +110,15 @@ class MwPagesBatch(UploadManagement):
         self.record_uploaded()
 
 
-def main():
+def main(join):
 
-    mpb = MwPagesBatch()
+    mpb = MwPagesBatch(join)
     mpb.download_unuploaded()
     print("Téléchargement terminé")
 
 
 if __name__ == "__main__":
-    main()
+
+    join = 1
+
+    main(join)
