@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 
-from bs4 import BeautifulSoup
 import re
+from unidecode import unidecode
+from bs4 import BeautifulSoup
+
 
 from my_tools import MyTools
 
@@ -11,10 +13,11 @@ from my_tools import MyTools
 class BeautifulMW:
     """Extrait le code mw de la page, et le chemin des fichiers."""
 
-    def __init__(self, file_path_name):
+    def __init__(self, file_path_name, join):
         """Chemin absolu avec nom du fichier."""
 
         self.file_path_name = file_path_name
+        self.join = join
         self.tools = MyTools()
 
         # La page à analyser
@@ -27,7 +30,7 @@ class BeautifulMW:
             self.soup = ""
 
     def get_mw_code(self):
-        """Retourne le code mesiawiki"""
+        """Retourne le code mediawiki"""
 
         # <div class="liste-jours">
         c = self.soup.find_all("textarea")
@@ -55,9 +58,26 @@ class BeautifulMW:
         # Récup des fichiers dans la page
         # ((?:Fichier|File|Image):[^|\]\n]+)
         # old ((?:Fichier|File|Image):[^|\]\s]+)
-        resp = re.findall( r"((?:Fichier|File|Image):[^|\]\n]+)",
-                           mw_code,
-                           flags=re.M)
+        if self.join:
+            # Récup de tous les fichiers
+            resp = re.findall(  r"((?:Fichier|File|Image):[^|\]\n]+)",
+                                mw_code,
+                                flags=re.M)
+
+            # renommage des fichiers dans la page
+            regex_resp = r"((?:Fichier|File|Image):[^|\]\n]+)"
+            new = regex_resp.lower()
+            new = new.replace(" ", "_")
+            new = unidecode(new)
+
+            re.sub( regex_resp,
+                    new,
+                    mw_code,
+                    flags=re.M)
+        else:
+            resp = re.findall(  r"((?:Fichier|File|Image):[^|\]\n]+)",
+                                mw_code,
+                                flags=re.M)
 
         return resp
 

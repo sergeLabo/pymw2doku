@@ -2,7 +2,8 @@
 
 ## Transfert d'une liste de pages du wiki Mediawiki vers le dokuwiki ##
 
-### Ce dépot est privé et réservé aux membres de La Labomedia ###
+#### Ce dépot est privé et réservé aux membres de La Labomedia ####
+
 
 ### Installation ###
 
@@ -11,6 +12,9 @@
 
 #### pandoc ####
     sudo pip3 install pypandoc
+
+#### unidecode ####
+    sudo pip3 install unidecode
 
 ### Utilisation ###
 
@@ -77,7 +81,7 @@ Chaque script peut-être relancé séparément.
     * pages_to_upload.txt
 
 Vider:
-* one_dir_per_page
+    * one_dir_per_page
 
 Ne pas supprimer de dossiers, ils ne sont pas créer automatiquement.
 

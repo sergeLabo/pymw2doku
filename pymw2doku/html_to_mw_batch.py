@@ -15,9 +15,11 @@ Galère:
 
 import os
 import re
+from unidecode import unidecode
 from time import sleep
 from bs4 import BeautifulSoup
 from urllib.parse import quote, unquote
+
 from beautiful_mw import BeautifulMW
 from mw_download import MWDownload
 from my_tools import MyTools
@@ -72,7 +74,7 @@ class HtmlToMw(MyTools):
         for directory in self.all_files.keys():
             for page in self.all_files[directory]:
                 # Get code
-                bmw = BeautifulMW(page)
+                bmw = BeautifulMW(page, self.join)
                 mw_code    = bmw.get_mw_code()
                 files_list = bmw.get_files_list(mw_code)
 
@@ -167,8 +169,17 @@ def download_files_with_path(file_with_path, directory, join):
     if not join:
         fichier = "./output/one_dir_per_page/" + directory + "/" + name
     else:
+        # minuscule
+        name = name.lower()
+        # Suppr espace
+        name = name.replace(" ", "_")
+        # Suppr :
+        name = name.replace(":", "")
+        # Suppr accent
+        name = unidecode(name)
+
         fichier ="./output/media/" + name
-    print(fichier)
+    #print(fichier)
     mw.download_and_write(fichier)
 
     # download and write effectif du fichier

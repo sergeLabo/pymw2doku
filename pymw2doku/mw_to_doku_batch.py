@@ -10,6 +10,7 @@ enregistre le code doku dans /output/mw_code/nom_de_page/nom_de_page_doku.dokuwi
 
 
 import re
+from unidecode import unidecode
 from time import sleep
 import pypandoc
 from my_tools import MyTools
@@ -33,9 +34,19 @@ class Convert(MyTools):
         else:
             # chemin + nom sans extension
             # ./output/pages/work/Kivy: Canvas
-            print(self.page_file)
             name = self.page_file[19:-10]
-            out_file = './output/pages/pages' + name + '.dokuwiki'
+            # minuscule
+            name = name.lower()
+            # Suppr espace
+            name = name.replace(" ", "_")
+            # Suppr :
+            name = name.replace(":", "")
+            # Suppr accent
+            name = unidecode(name)
+
+            print(name)
+
+            out_file = './output/pages/pages' + name + '.txt'
 
         self.improvement_before(in_file)
 
@@ -167,6 +178,9 @@ class Convert(MyTools):
             # Ajout ===== nom de page =====
             page = self.add_page_name(page, in_file)
 
+            # Conversion des noms de fichiers
+
+
             # Overwrite in_file, pypandoc lira le nouveau fichier
             self.write_data_in_file(page, out_file)
         else:
@@ -189,12 +203,12 @@ class ConvertBatch(MyTools):
         else:
             dire = "./output/pages"
             self.all_files = self.get_all_files(dire, ".mediawiki")
+
     def convert_all(self):
 
         for directory in self.all_files.keys():
             for page_file in self.all_files[directory]:
-
-                print("Conversion de ", page_file)
+                #print("Conversion de ", page_file)
                 conv = Convert(page_file, self.join)
                 conv.convert()
 
