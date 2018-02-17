@@ -87,9 +87,9 @@ Chaque script peut-être relancé séparément.
 Vider:
     * one_dir_per_page
 
-Ne pas supprimer de dossiers, ils ne sont pas créer automatiquement.
+Ne pas supprimer de dossiers, ils ne sont pas créés automatiquement.
 
-Bon, je ne suis pas stakanoviste, je ne vais pas passer à pinailler un truc qui ne va servir qu'une fois lors d'un wiki-sprint de 4 heures.
+Bon, je ne suis pas Alekseï Stakhanoviste, je ne vais pas pinailler un truc qui ne va servir qu'une fois lors d'un wiki-sprint de 4 heures.
 
 ### Défauts ###
 ####C'était bien jusqu'à ce que je m'occupe des fichiers !####
