@@ -7,6 +7,10 @@
 
 ### Installation ###
 
+#### Installation de pip3
+    sudo apt-get install python3-dev build-essential
+    sudo apt-get install python3-pip
+
 #### BeautifulSoup
     sudo pip3 install bs4
 
