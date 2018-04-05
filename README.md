@@ -12,9 +12,10 @@
     sudo apt-get install python3-pip
 
 #### BeautifulSoup
-    sudo pip3 install bs4
+    sudo pip3 install bs4 lxml
 
 #### pandoc ####
+    sudo apt-get install pandoc
     sudo pip3 install pypandoc
 
 #### unidecode ####

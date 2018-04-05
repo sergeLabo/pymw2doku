@@ -89,7 +89,9 @@ class Convert(MyTools):
 
         str_list = in_file.rsplit("/")
         name = str_list[-1][:-10]
-        name = "=====" + name + "====="
+
+        # Titre en H1, 6égal
+        name = "======" + name + "======"
 
         page = name + "\n" + page
 
@@ -177,9 +179,6 @@ class Convert(MyTools):
 
             # Ajout ===== nom de page =====
             page = self.add_page_name(page, in_file)
-
-            # Conversion des noms de fichiers
-
 
             # Overwrite in_file, pypandoc lira le nouveau fichier
             self.write_data_in_file(page, out_file)
