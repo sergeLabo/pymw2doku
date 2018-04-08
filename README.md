@@ -2,6 +2,8 @@
 
 ## Transfert d'une liste de pages du wiki Mediawiki vers le dokuwiki ##
 
+Vérifié avec Guillaume
+
 #### Ce dépot est privé et réservé aux membres de La Labomedia ####
 
 
@@ -15,6 +17,7 @@
     sudo pip3 install bs4 lxml
 
 #### pandoc ####
+    sudo apt-get install pandoc
     sudo apt-get install pandoc
     sudo pip3 install pypandoc
 
