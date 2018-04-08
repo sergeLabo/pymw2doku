@@ -18,7 +18,6 @@ Vérifié avec Guillaume
 
 #### pandoc ####
     sudo apt-get install pandoc
-    sudo apt-get install pandoc
     sudo pip3 install pypandoc
 
 #### unidecode ####
