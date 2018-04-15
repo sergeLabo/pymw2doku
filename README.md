@@ -6,6 +6,18 @@ Vérifié avec Guillaume
 
 #### Ce dépot est privé et réservé aux membres de La Labomedia ####
 
+### TODO ###
+
+Remplacer ''%% par <code>
+Remplacer %%'' par </code>
+
+Arranger en auto les "égal"
+
+Les commandes avec
+wget http ...
+git clone http ...
+svn co http ...
+sont fausses: ''%% et %%'' à supprimer
 
 ### Installation ###
 

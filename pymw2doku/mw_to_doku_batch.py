@@ -180,12 +180,117 @@ class Convert(MyTools):
             # Ajout ===== nom de page =====
             page = self.add_page_name(page, in_file)
 
-            # Overwrite in_file, pypandoc lira le nouveau fichier
+            # correction des nombres d'égal
+            page = self.egal_improvement(page)
+
+            # corrections des adresse http
+            # git clone https://git...
+            # git clone http://git...
+            page = self.correction_address(page)
+
+            # remplacement des ''%%  par espace espace
+            # suppression des %%''
+            # suppression des %%''\\espace
+            page = self.delete_quote_pourcent(page)
+
+            # Overwrite in_file
             self.write_data_in_file(page, out_file)
         else:
             print("\n\nConversion impossible pour:\n    ",
                    in_file[17:],
                    "\n\n")
+
+    def egal_improvement(self, page):
+        """correction des nombres d'égal"""
+
+        lines = self.get_lines_in_page(page)
+        # page sans titre
+        lines_sans_titre = lines[1:]
+        # titre
+        titre = lines[0]
+        new_page = titre + "\n"
+
+        # y a-t-il des 6 egal dans la page autre que le titre
+        egal = False
+        for line in lines_sans_titre:
+                if "======" in line:
+                    egal = True
+
+        if egal:
+            print("Correction des égal")
+            # parcours de toutes les lignes une seule fois
+            for line in lines_sans_titre:
+                if "======" in line:
+                    line = line.replace("======", "=====")
+                elif "=====" in line:
+                    line = line.replace("=====", "====")
+                elif "====" in line:
+                    line = line.replace("====", "===")
+                elif "===" in line:
+                    line = line.replace("===", "==")
+                elif "==" in line:
+                    line = line.replace("==", "=")
+
+                # reconstruction de page
+                new_page += line + "\n"
+
+        return new_page
+
+    def delete_quote_pourcent(self, page):
+        """remplacement des ''%%  par espace espace
+        suppression des %%''
+        suppression des %%''\\espace
+        """
+
+        # en début de ligne
+        page = page.replace("''%%", "  ")
+
+        # en fin de ligne avec \\espace
+        page = page.replace("%%''\\ ", "")
+
+        # en fin de ligne
+        page = page.replace("%%''", "")
+
+        # casserait tous les sauts de lignes
+        #page = page.replace("\\ ", "")
+
+        return page
+
+    def correction_address(self, page):
+        """ git clone https://git...
+            git clone http://git...
+            wget http://...
+
+''%%wget %%''[[http://oscpack.googlecode.com/files/oscpack.zip|''%%http://oscpack.googlecode.com/files/oscpackzip%%'']]
+    espace espace wget http://...files/oscpack.zip
+        """
+
+        lines = self.get_lines_in_page(page)
+        # page sans titre
+        lines_sans_titre = lines[1:]
+        new_page = ""
+
+        cmd = ["wget", "git clone", "svn co"]
+
+        for line in lines:
+            for c in cmd:
+                if c in line:
+                    # coupe de la fin
+                    line = line.split("|", 1)[0]
+                    # suppr %%''
+                    line = line.replace("%%''[[", "")
+
+            # reconstruction de page
+            new_page += line + "\n"
+
+        return new_page
+
+    def get_lines_in_page(self, page):
+        """Retourne les lignes dans une liste"""
+
+        lines = page.splitlines()
+
+        return lines
 
 
 class ConvertBatch(MyTools):
