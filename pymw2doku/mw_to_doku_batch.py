@@ -233,6 +233,11 @@ class Convert(MyTools):
 
                 # reconstruction de page
                 new_page += line + "\n"
+        else:
+            # parcours de toutes les lignes une seule fois
+            for line in lines_sans_titre:
+                # reconstruction de page
+                new_page += line + "\n"
 
         return new_page
 
