@@ -242,17 +242,18 @@ class Convert(MyTools):
         suppression des %%''\\espace
         """
 
-        # en début de ligne
+        # ''%% en début de ligne
         page = page.replace("''%%", "  ")
 
-        # en fin de ligne avec \\espace
-        page = page.replace("%%''\\ ", "")
+        # ''%% en fin de ligne avec \\espace
+        # https://regex101.com/r/MMtxW2/1
+        page = re.sub( r"(%%''\\\\)",
+                       "",
+                       page,
+                       flags=re.M)
 
         # en fin de ligne
         page = page.replace("%%''", "")
-
-        # casserait tous les sauts de lignes
-        #page = page.replace("\\ ", "")
 
         return page
 
