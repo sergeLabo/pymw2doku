@@ -281,10 +281,18 @@ class Convert(MyTools):
         for line in lines:
             for c in cmd:
                 if c in line:
+                    print("Commande à corriger\n    ", line)
+
                     # coupe de la fin
                     line = line.split("|", 1)[0]
-                    # suppr %%''
-                    line = line.replace("%%''[[", "")
+
+                    # TODO à vérifier sur beaucoup de page
+                    line = line.replace("''%%[[", "")
+                    line = line.replace("''%%", "")
+                    line = line.replace("]]%%''", "")
+                    line = line.replace("%%''", "")
+
+                    print("Commande corrigée\n    ", line)
 
             # reconstruction de page
             new_page += line + "\n"

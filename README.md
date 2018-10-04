@@ -8,8 +8,8 @@ Vérifié avec Guillaume
 
 ### Bugs connus ###
 
-La correction des git clone wget etc ... n'est pas parfaite
-
+* La correction des git clone wget etc ... n'est pas parfaite
+* Les pages très compliquées de benj sont très mal traduites, mais un wiki de qualité exige une réécriture de ces pages plutôt qu'un transfert.
 
 ### Installation ###
 
@@ -39,42 +39,15 @@ Seulement le nom de page, exemple
 #### Excécution ####
 Dans le dossier pymw2doku/pymw2doku
 
-Tous les fichiers dokuwiki dans un seul dossier:
-
-    python3 main.py 1
-
-
-Un dossier par page:
-
     python3 main.py
-
 
 ### Un dossier par page ###
 Tous est dans le dossier ./pymw2doku/pymw2doku/output/one_dir_per_page
 
 Dans le dokuwiki, créer votre page, coller le code dokuwiki,
-puis uploader les fichiers.
-
-
-### Tous les fichiers dokuwiki dans un seul dossier ###
-####Les pages à copier####
-
-dans le site dokuwiki: ???/www/dokuwiki/data/pages
-
-sont dans
-
-./pymw2doku/pymw2doku/output/pages/pages/
-
-####Les fichiers à copier####
-
-dans le site dokuwiki: ???/www/dokuwiki/data/media
-
-sont dans
-
-./pymw2doku/pymw2doku/output/media/
+puis uploader les fichiers. Vérifier votre page.
 
 ### Pour relancer ###
-Si ça plante, si vous aimez voir défiler le terminal ...
 
 Pour  retélécharger, et relancer tout
 
@@ -84,19 +57,17 @@ Pour  retélécharger, et relancer tout
 
 Chaque script peut-être relancé séparément.
 
-### Relance pour créer un dossier par personne  ###
-
-* Mettre à jour
-    * uploaded_pages.txt
-    * uploaded_files.txt
-    * pages_to_upload.txt
-
-Vider:
-    * one_dir_per_page
-
-Ne pas supprimer de dossiers, ils ne sont pas créés automatiquement.
+### Attention  ###
 
 Bon, je ne suis pas Alekseï Stakhanoviste, je ne vais pas pinailler un truc qui ne va servir qu'une fois lors d'un wiki-sprint de 4 heures.
+
+* Ne pas supprimer les dossiers autres que ceux dans one_dir_per_page, ils ne sont pas créés automatiquement.
+* Il faut supprimer le dossier
+
+
+
+
+
 
 ### Défauts ###
 ####C'était bien jusqu'à ce que je m'occupe des fichiers !####

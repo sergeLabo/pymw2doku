@@ -31,9 +31,9 @@ class MWDownload:
         except HTTPError as e:
                 #print("HTTP Error:", e.code)
                 self.download_error()
-        # #except URLError as e:
-                # ##print("URL Error:", e.reason)
-                # #self.download_error(self.page)
+        except URLError as e:
+                #print("URL Error:", e.reason)
+                self.download_error(self.page)
 
         return self.page
 

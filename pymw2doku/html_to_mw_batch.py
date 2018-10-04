@@ -10,6 +10,12 @@ enregistre le code dans /output/mw_code/nom_de_page/nom_de_page.txt
 Galère:
     trouve les fichiers à télécharger
     télécharge ces fichiers dans /output/mw_code/nom_de_page/
+
+
+{{Fiche Idée Image
+|Image=Fifa-pres-mini.png
+}}
+
 """
 
 
@@ -112,8 +118,9 @@ def download_file_page_list(files_list):
     pages_list = []
     for line in files_list:
         if line:
+            #line = line.replace("=", ":")
             line = quote(line)
-            url = site + line
+            url = site + "file:" + line
 
             mwd = MWDownload(url, decoded=1)
             file_page = mwd.download_page()
