@@ -25,9 +25,6 @@ PAGES_TO_TRANSFERT = "input/pages_to_upload.txt"
 # pages transférées
 TRANSFERED = "input/uploaded_pages.txt"
 
-SITE = "https://wiki.labomedia.org/index.php?title="
-EDIT = "&action=edit"
-
 
 class UploadManagement(MyTools):
     """Gestion des uploaded."""
@@ -68,21 +65,19 @@ class UploadManagement(MyTools):
 
 
 class MwPagesBatch(UploadManagement):
-    """Class qui va tout lancer."""
 
-    def __init__(self, join):
+    def __init__(self, site, edit):
         super().__init__()
         self.get_unuploaded()
-        self.join = join
+        self.site = site
+        self.edit = edit
 
     def download_unuploaded(self):
 
-        if not self.join:
-            dire = "./output/one_dir_per_page/"
-        else:
-            dire = "./output/pages/work/"
+        dire = "./output/"
 
-        master_dir = self.get_absolute_path(dire)
+        master_dir = self.get_absolute_path_of_directory(dire)
+
 
         for line in self.unuploaded:
             if line:
@@ -91,18 +86,14 @@ class MwPagesBatch(UploadManagement):
 
                 # Adreese valide
                 page_q = quote(line)
-                url = SITE + page_q + EDIT
+                url = self.site + page_q + self.edit
 
                 mwd = MWDownload(url)
                 page = mwd.download_page()
 
-                if not self.join:
-                    directory = master_dir + "/" + line + "/"
-                    self.create_directory(directory)
-                    fichier = directory + line + ".html"
-
-                else:
-                    fichier = master_dir + "/" + line + ".html"
+                directory = master_dir + "/" + line + "/"
+                self.create_directory(directory)
+                fichier = directory + line + ".html"
 
                 # Ecriture du html
                 self.write_data_in_file(page, fichier)
@@ -110,15 +101,14 @@ class MwPagesBatch(UploadManagement):
         self.record_uploaded()
 
 
-def main(join):
+def main(site, edit):
 
-    mpb = MwPagesBatch(join)
+    mpb = MwPagesBatch(site, edit)
     mpb.download_unuploaded()
     print("Téléchargement terminé")
 
 
 if __name__ == "__main__":
-
-    join = 1
-
-    main(join)
+    site = "https://wiki.labomedia.org/index.php?title="
+    edit = "&action=edit"
+    main(site, edit)

@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-lance les 3 scripts l'un après l'autre
-"""
 
 import os
 import sys
@@ -13,35 +10,55 @@ from html_to_mw_batch import main as html_to_mw_and_download_files
 from mw_to_doku_batch import main as mw_to_doku
 
 
-def main(join):
-    """Join regroupe les pages et les fichiers
-    dans un seul dossier pages et un seul dossier files
-    Sinon un dossier par page dans one_dir_per_page
-    """
+"""
+Excécute tout
 
-    download_pages(join)
-    html_to_mw_and_download_files(join)
-    mw_to_doku(join)
+En terminal, dans le dossier de ce script, se lance avec
+
+python3 main.py site edit
+
+Pour Labomedia
+    site = "https://wiki.labomedia.org/index.php?title="
+    edit = "&action=edit"
+
+Pour le wiki archivé:
+
+'https://wiki.labomedia.org/wiki.labomedia.org/index.php%3Ftitle='
+
+Accueil
+
+'&action=edit.html'
+
+"""
+
+
+import sys
+
+def main(site, edit):
+
+    download_pages(site, edit)
+    html_to_mw_and_download_files()
+    mw_to_doku()
 
 if __name__ == "__main__":
-    """L'exécution par défaut lance avec join = 0"""
+
+    print("Liste des arguments", sys.argv)
 
     try:
-        if len(sys.argv) == 2:
-            if sys.argv[1] == '1':
-                a = 1
-        if len(sys.argv) == 1:
-            a = 0
+        site = sys.argv[1]
+        edit = sys.argv[2]
+        print(site, edit)
+        main(site, edit)
     except:
         print("""
-Usage:
+        Usage:
+        python3 main.py site edit
 
-Tous les fichiers dokuwiki dans un seul dossier
-    python3 main.py 1
+        Exemple:
+        python3 main.py 'https://wiki.labomedia.org/index.php?title=' '&action=edit'
 
-Un dossier par page:
-    python3 main.py
-""")
-        os._exit(0)
+        ou
 
-    main(a)
+        python3 main.py 'https://wiki.labomedia.org/wiki.labomedia.org/index.php%3Ftitle=' '&action=edit.html'
+        """)
+        sys.exit()

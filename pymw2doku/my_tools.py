@@ -102,17 +102,25 @@ class MyTools:
         except FileExistsError as e:
             pass
 
-    def get_absolute_path(self, a_file_or_a_directory):
-        """Retourne le chemin absolu d'un répertoire ou d'un fichier
-        n'importe où.
+    def get_absolute_path_of_file(self, a_file):
+        """Retourne le chemin absolu d'un fichier n'importe où.
         """
+        return os.path.abspath(a_file)
 
-        return os.path.abspath(a_file_or_a_directory)
-
+    def get_absolute_path_of_directory(self, a_directory):
+        """Retourne le chemin absolu d'un dossier n'importe où,
+        crée le dossier si existe pas
+        """
+        p = os.path.abspath(a_directory)
+        exist = os.path.isdir(p)
+        if not exist:
+            self.create_directory(a_directory)
+        return p
 
 def test0():
-    pass
-
+    mt = MyTools()
+    print(mt.get_absolute_path_of_directory("toto"))
+    print(mt.get_absolute_path_of_file("test"))
 
 if __name__ == "__main__":
 

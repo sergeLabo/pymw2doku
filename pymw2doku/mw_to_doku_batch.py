@@ -18,35 +18,17 @@ from my_tools import MyTools
 
 class Convert(MyTools):
 
-    def __init__(self, page_file, join):
+    def __init__(self, page_file):
         super().__init__()
         # page_file est une liste avec un nom de chemin/fichier
         self.page_file = page_file
-        self.join = join
 
     def convert(self):
         """Convertit en syntax doku"""
 
         in_file = self.page_file
 
-        if not self.join:
-            out_file = self.page_file[:-10] + '.dokuwiki'
-        else:
-            # chemin + nom sans extension
-            # ./output/pages/work/Kivy: Canvas
-            name = self.page_file[19:-10]
-            # minuscule
-            name = name.lower()
-            # Suppr espace
-            name = name.replace(" ", "_")
-            # Suppr :
-            name = name.replace(":", "")
-            # Suppr accent
-            name = unidecode(name)
-
-            print(name)
-
-            out_file = './output/pages/pages' + name + '.txt'
+        out_file = self.page_file[:-10] + '.dokuwiki'
 
         self.improvement_before(in_file)
 
@@ -193,6 +175,9 @@ class Convert(MyTools):
             # suppression des %%''\\espace
             page = self.delete_quote_pourcent(page)
 
+            # Correction des fiches idées avec mauvais liens images
+            page = self.correction_bad_image(page)
+
             # Overwrite in_file
             self.write_data_in_file(page, out_file)
         else:
@@ -306,34 +291,38 @@ class Convert(MyTools):
 
         return lines
 
+    def correction_bad_image(self, page):
+        """
+        [[file:Fifi-premier1.JPG|400px]]
+
+        {{Fifi-premier1.JPG?400px}}
+        """
+
+        return page
 
 class ConvertBatch(MyTools):
 
-    def __init__(self, join):
+    def __init__(self):
         super().__init__()
 
-        self.join = join
+        dire = "./output"
+        master_dir = self.get_absolute_path_of_directory(dire)
 
-        if not self.join:
-            dire = "./output/one_dir_per_page"
-            # Dict avec répertoires: liste des fichiers
-            self.all_files = self.get_all_files(dire, ".mediawiki")
-        else:
-            dire = "./output/pages"
-            self.all_files = self.get_all_files(dire, ".mediawiki")
+        # Dict avec répertoires: liste des fichiers
+        self.all_files = self.get_all_files(dire, ".mediawiki")
 
     def convert_all(self):
 
         for directory in self.all_files.keys():
             for page_file in self.all_files[directory]:
                 #print("Conversion de ", page_file)
-                conv = Convert(page_file, self.join)
+                conv = Convert(page_file)
                 conv.convert()
 
 
-def main(join):
+def main():
     print("\nConversion:")
-    convert = ConvertBatch(join)
+    convert = ConvertBatch()
     convert.convert_all()
     print("\nConversion terminée")
 
@@ -346,7 +335,4 @@ def test():
 
 if __name__ == "__main__":
 
-    join = 1
-
-    main(join)
-    # #test()
+    main()

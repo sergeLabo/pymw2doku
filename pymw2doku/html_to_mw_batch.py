@@ -33,54 +33,34 @@ from my_tools import MyTools
 
 class HtmlToMw(MyTools):
 
-    def __init__(self, join):
+    def __init__(self):
         super().__init__()
 
         print("Html To Mw")
 
-        self.join = join
+        dire = "./output"
+        master_dir = self.get_absolute_path_of_directory(dire)
 
-        if not self.join:
-            dire = "./output/one_dir_per_page"
-            # Dict avec répertoires: liste des fichiers
-            self.all_files = self.get_all_files(dire, ".html")
-        else:
-            dire = "./output/pages"
-            self.all_files = self.get_all_files(dire, ".html")
 
-        # Liste des téléchargés
-        self.uploaded_file = get_uploaded_file()
+        # Dict avec répertoires: liste des fichiers
+        self.all_files = self.get_all_files(dire, ".html")
 
         # Liste des téléchargés dans cette instance
         self.uploaded_list = []
 
-    def is_file_un_uploaded(self, fichier):
-        """Retourne True si pas encore téléchargé"""
-
-        if fichier in self.uploaded_file:
-            return False
-        else:
-            return True
-
     def get_mw_and_files(self):
-        """Récupère le code mediawiki
-        et l'enregistre dans *.mediawiki
+        """Récupère le code mediawiki et l'enregistre dans *.mediawiki
 
-        si unjoin: des clés avec un fichier en valeur
+        des clés avec un fichier en valeur
         {'Installation de Twisted':
-            ['./output/one_dir_per_page/Installation de Twisted/Installation de Twisted.html'],
-         'name':
-            [file.html]
-
-        si join: une clés et des fichiers en valeur
-        {'pages':
-            ['./output/pages/work/Kivy: Canvas.html', './output/pages/work/Blender:Alpha Blending.html',
+            ['./output/Installation de Twisted/Installation de Twisted.html'],
+         'name': [file.html]
         """
 
         for directory in self.all_files.keys():
             for page in self.all_files[directory]:
                 # Get code
-                bmw = BeautifulMW(page, self.join)
+                bmw = BeautifulMW(page)
                 mw_code    = bmw.get_mw_code()
                 files_list = bmw.get_files_list(mw_code)
 
@@ -99,15 +79,8 @@ class HtmlToMw(MyTools):
                 # Téléchargement des fichiers
                 for f in files_list_with_path:
                     if f:
-                        un_uploaded = self.is_file_un_uploaded(f)
-                        if un_uploaded:
-                            download_files_with_path(   f,
-                                                        directory,
-                                                        self.join)
-                            self.uploaded_list.append(f)
-
-        # Enregistrement par ajout au fichier input/uploaded_files.txt
-        save_loaded(self.uploaded_list)
+                        download_files_with_path(f, directory)
+                        self.uploaded_list.append(f)
 
 
 def download_file_page_list(files_list):
@@ -153,10 +126,9 @@ def get_files_list_with_path(pages_list):
 
     return files_list_with_path
 
-def download_files_with_path(file_with_path, directory, join):
+def download_files_with_path(file_with_path, directory):
     """Download one file with path
     https://wiki.labomedia.org/index.php/images/2/2e/Cheminements.png
-    si pas dans uploaded_files.txt
     """
 
     site = "https://wiki.labomedia.org/"
@@ -173,69 +145,25 @@ def download_files_with_path(file_with_path, directory, join):
     url = site + line
     mw = MWDownload(url, decoded=0)
 
-    if not join:
-        fichier = "./output/one_dir_per_page/" + directory + "/" + name
-    else:
-        # minuscule
-        name = name.lower()
-        # Suppr espace
-        name = name.replace(" ", "_")
-        # Suppr :
-        name = name.replace(":", "")
-        # Suppr accent
-        name = unidecode(name)
+    fichier = "./output/" + directory + "/" + name
 
-        fichier ="./output/media/" + name
-    #print(fichier)
     mw.download_and_write(fichier)
 
     # download and write effectif du fichier
     print("Fichier enregistré: ", name)
 
-def get_uploaded_file():
-    """Retourne data de uploaded_files.txt"""
-
-    # Get uploaded_files.txt
-    mt = MyTools()
-    files_str = mt.read_file("./input/uploaded_files.txt")
-    files_str = files_str.splitlines()
-
-    # Conversion du str en list
-    uploaded_files = []
-    for line in files_str:
-        uploaded_files.append(line)
-
-    return uploaded_files
-
-def save_loaded(uploaded_list):
-    """Ajoute la liste de uploaded à input/uploaded_files.txt"""
-
-    # Conversion de uploaded_list en str
-    lines = ""
-    for u in uploaded_list:
-        lines = lines + u + "\n"
-
-    # Save
-    with open("./input/uploaded_files.txt", 'a') as fd:
-        fd.write(lines)
-    fd.close()
-
-    print("Ecriture des fichiers nouveaux dans ./input/uploaded_files.txt")
-
-def main(join):
+def main():
     """Batch de toutes les pages html to mediawiki
     récup des fichiers cités
     download des pages de fichiers
     download et save des fichiers
     """
 
-    htm = HtmlToMw(join)
+    htm = HtmlToMw()
     htm.get_mw_and_files()
     print("Done.")
 
 
 if __name__ == "__main__":
 
-    join = 1
-
-    main(join)
+    main()

@@ -85,7 +85,7 @@ def test1():
     site = "https://wiki.labomedia.org/index.php?title="
     edit = "&action=edit"
 
-    with open("./input/quelques_pages.txt") as f:
+    with open("./input/pages_to_upload.txt") as f:
         temp = f.read().splitlines()
         for line in temp:
             print("\nligne", line)
@@ -94,27 +94,16 @@ def test1():
             url = site + line + edit
             print("url",url, "\n" )
 
-            mw = MWDownload(url)
-            mw.download_and_write("./output/one_dir_per_page/" + line)
+            mw = MWDownload(url, decoded=0)
+            mw.download_and_write(line)
         f.close()
 
 def test2():
-    """Téléchargement de fichier qui marche pas, exemple
-    https://wiki.labomedia.org/index.php/Fichier:Bubble1.png
-    charge la page de description du fichier
-
-    il faut beautifull la page pour trouver le
-    line = "images/2/2e/Bubble1.png"
-
-    il ne faut pas de
-    .decode("utf-8")
-    dans download_page
-    """
 
     site = "https://wiki.labomedia.org/index.php/"
 
     # Open our local file
-    with open("./input/some_files.txt") as f:
+    with open("./input/pages_to_upload.txt") as f:
         temp = f.read().splitlines()
         for line in temp:
             print("\nligne", line)
@@ -123,10 +112,8 @@ def test2():
             url = site + line
             print("url",url, "\n" )
 
-            f = "./output/mw_files/" + line
-            print(f)
             mw = MWDownload(url, decoded=0)
-            mw.download_and_write("./output/mw_files/" + line)
+            mw.download_and_write(line)
         f.close()
 
 def test3():
@@ -141,8 +128,8 @@ def test3():
     url = site + line
     print("url =", url, "\n" )
 
-    mw = MWDownload(url)
-    mw.download_and_write("./output/files/" + name)
+    mw = MWDownload(url, decoded=0)
+    mw.download_and_write("./output/" + name)
 
 def test4():
     """Download on dokuwiki"""
@@ -154,9 +141,13 @@ def test4():
     url = site + line
     print("url =", url, "\n" )
 
-    mw = MWDownload(url)
+    mw = MWDownload(url, decoded=0)
     mw.download_and_write("./output/" + name)
 
 
 if __name__ == '__main__':
     test0()
+    test1()
+    test2()
+    test3()
+    test4()
