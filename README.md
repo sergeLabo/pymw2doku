@@ -67,7 +67,6 @@ Chaque script peut-être relancé séparément.
 ### Attention
 
 * Ne pas supprimer le dossier input et les fichiers
-
     * pages_to_upload.txt
     * uploaded_pages.txt
 
