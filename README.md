@@ -1,6 +1,6 @@
-# Mediawiki to Dokuwiki #
+# Mediawiki to Dokuwiki
 
-## Transfert d'une liste de pages du wiki Mediawiki vers le dokuwiki ##
+## Transfert d'une liste de pages du wiki Mediawiki vers le dokuwiki
 
 Cet outil télécharge les pages existantes sur un Mediawiki, les convertit en dokuwiki,
 et télécharge les fichiers.
@@ -10,12 +10,14 @@ coller le code du fichier page.dokuwiki dans votre page.
 
 Puis uploader les fichiers.
 
-### Bugs connus ###
+### Bugs connus
 
 * La correction des git clone ... wget ... etc ... n'est pas parfaite
 * Les pages très compliquées (avec des modèles ...) sont mal traduites.
 
-### Installation ###
+* Important: Retélécharge les fichiers dejà téléchargés, si les dossiers des pages déjà téléchargées n'ont pas été transférées et les dossiers correspondant supprimés
+
+### Installation
 
 #### Installation de pip3
     sudo apt-get install python3-dev build-essential
@@ -24,16 +26,16 @@ Puis uploader les fichiers.
 #### BeautifulSoup
     sudo pip3 install bs4 lxml
 
-#### pandoc ####
+#### pandoc
     sudo apt-get install pandoc
     sudo pip3 install pypandoc
 
-#### unidecode ####
+#### unidecode
     sudo pip3 install unidecode
 
-### Utilisation ###
+### Utilisation
 
-#### Quelles pages à transférer ?  ####
+#### Définir les pages à transférer
 Les pages à transférer sont dans le fichier pages_to_upload.txt
 
 Une ligne par pages.
@@ -42,17 +44,20 @@ Seulement le nom de page, exemple
 
     Kivy Buildozer pour créer une application Android avec un script python
 
-#### Excécution ####
+#### Excécution
 Dans le dossier pymw2doku/pymw2doku
 
-    python3 main.py
+    python3 main.py site edit
 
-Tous est dans le dossier ./pymw2doku/pymw2doku/output/
+Exemple:
 
-Dans le dokuwiki, créer votre page, coller le code dokuwiki,
-puis uploader les fichiers. Vérifier votre page.
+    python3 main.py 'https://wiki.labomedia.org/index.php?title=' '&action=edit'
 
-### Pour relancer ###
+ou
+
+    python3 main.py 'https://wiki.labomedia.org/wiki.labomedia.org/index.php%3Ftitle=' '&action=edit.html'
+
+### Pour relancer
 
 Pour  retélécharger, et relancer tout
 
@@ -61,12 +66,24 @@ Pour  retélécharger, et relancer tout
 
 Chaque script peut-être relancé séparément.
 
-### Attention  ###
+### Attention
 
 * Ne pas supprimer le dossier input et les fichiers
 
-** pages_to_upload.txt
-** uploaded_pages.txt
+* pages_to_upload.txt
+* uploaded_pages.txt
+
+### Méthode de transfert
+
+Les éléments sont dans le dossier ./pymw2doku/pymw2doku/output/
+
+* Ouvrir votre_page.dokuwiki
+* Copier le titre qui esst la 1ère ligne sans sanns les =
+* Créer la page
+* Coller tout les texte de votre_page.dokuwiki, enregister
+* Uploader les fichiers
+* Vérifier votre page.
+* Supprimer le dossier de cette page
 
 ### Merci à La Labomedia ###
 * Merci à Maxime pour ces regex

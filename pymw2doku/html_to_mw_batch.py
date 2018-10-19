@@ -3,19 +3,13 @@
 
 
 """
-parcours des dossiers, fichiers
+Parcours des dossiers, fichiers
 puis extrait le code mw
-enregistre le code dans /output/mw_code/nom_de_page/nom_de_page.txt
+enregistre le code dans /output/nom_de_page/nom_de_page.txt
 
-Galère:
+Fichiers:
     trouve les fichiers à télécharger
-    télécharge ces fichiers dans /output/mw_code/nom_de_page/
-
-
-{{Fiche Idée Image
-|Image=Fifa-pres-mini.png
-}}
-
+    télécharge ces fichiers dans /output/nom_de_page/
 """
 
 
@@ -49,8 +43,9 @@ class HtmlToMw(MyTools):
         self.uploaded_list = []
 
     def get_mw_and_files(self):
-        """Récupère le code mediawiki et l'enregistre dans *.mediawiki
-
+        """Trouve le code mediawiki et l'enregistre dans *.mediawiki,
+        trouve les fichiers à télécharger, et les télécharge.
+        
         des clés avec un fichier en valeur
         {'Installation de Twisted':
             ['./output/Installation de Twisted/Installation de Twisted.html'],
@@ -147,9 +142,8 @@ def download_files_with_path(file_with_path, directory):
 
     fichier = "./output/" + directory + "/" + name
 
-    mw.download_and_write(fichier)
-
     # download and write effectif du fichier
+    mw.download_and_write(fichier)
     print("Fichier enregistré: ", name)
 
 def main():
