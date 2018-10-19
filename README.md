@@ -36,13 +36,11 @@ Puis uploader les fichiers.
 ### Utilisation
 
 #### Définir les pages à transférer
-Les pages à transférer sont dans le fichier pages_to_upload.txt
 
-Une ligne par pages.
-
-Seulement le nom de page, exemple
-
-    Kivy Buildozer pour créer une application Android avec un script python
+* Les pages à transférer sont dans le fichier pages_to_upload.txt
+* Une ligne par pages.
+* Seulement le nom de page, exemple
+    * Kivy Buildozer pour créer une application Android avec un script python
 
 #### Excécution
 Dans le dossier pymw2doku/pymw2doku
@@ -70,8 +68,8 @@ Chaque script peut-être relancé séparément.
 
 * Ne pas supprimer le dossier input et les fichiers
 
-* pages_to_upload.txt
-* uploaded_pages.txt
+    * pages_to_upload.txt
+    * uploaded_pages.txt
 
 ### Méthode de transfert
 
