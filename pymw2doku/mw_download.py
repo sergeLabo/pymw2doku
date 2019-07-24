@@ -20,7 +20,10 @@ class MWDownload:
 
         self.page = None
         try:
-            page = urllib.request.urlopen(self.url)
+            opener = urllib.request.build_opener()
+            opener.addheaders = [('Cookie', "")]
+            page = opener.open(self.url)
+            #page = urllib.request.urlopen(self.url)
             page = page.read()
             if self.decoded:
                 self.page = page.decode("utf-8")
@@ -74,7 +77,7 @@ class MWDownload:
 def test0():
     """Download some pages"""
 
-    url = "https://wiki.labomedia.org/index.php/Fichier:Tablo-motherboard3.jpg"
+    url = "http://wikilab.myhumankit.org/index.php?title=Projets:E-trotti&action=edit"
     mw = MWDownload(url)
     mw.download_page()
     print(mw.page)
@@ -147,7 +150,7 @@ def test4():
 
 if __name__ == '__main__':
     test0()
-    test1()
-    test2()
-    test3()
-    test4()
+    # #test1()
+    # #test2()
+    # #test3()
+    # #test4()
