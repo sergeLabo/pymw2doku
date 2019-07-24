@@ -21,14 +21,6 @@ Pour Labomedia
     site = "https://wiki.labomedia.org/index.php?title="
     edit = "&action=edit"
 
-Pour le wiki archivé:
-
-'https://wiki.labomedia.org/wiki.labomedia.org/index.php%3Ftitle='
-
-Accueil
-
-'&action=edit.html'
-
 """
 
 
@@ -56,9 +48,5 @@ if __name__ == "__main__":
 
         Exemple:
         python3 main.py 'https://wiki.labomedia.org/index.php?title=' '&action=edit'
-
-        ou
-
-        python3 main.py 'https://wiki.labomedia.org/wiki.labomedia.org/index.php%3Ftitle=' '&action=edit.html'
         """)
         sys.exit()
